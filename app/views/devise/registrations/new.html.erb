@@ -1,0 +1,15 @@
+<center><h1 class="bg-text">ÜYE OL</h1></center>
+<div class="container-fluid">
+  <div class="row bg-text bg-colors">
+    <div class="col-md-10" style="padding-left: 50mm">
+      <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+        <%= f.error_notification %>
+        <%= f.input :email, required: true, autofocus: true, input_html: { autocomplete: "email" } %>
+        <%= f.input :password, required: true, hint: ("Minimum #{@minimum_password_length} Karakter" if @minimum_password_length), input_html: { autocomplete: "new-password" }, label: "Şifre" %>
+        <%= f.input :password_confirmation, required: true, input_html: { autocomplete: "new-password" }, label: "Şifre Tekrar" %>
+        <p><%= f.button :submit, class: "bg-button", style: "margin-top:2mm;", value: "Üye Ol" %></p>
+      <% end %>
+    </div>
+  </div>
+</div>
+<%= render "devise/shared/links" %>

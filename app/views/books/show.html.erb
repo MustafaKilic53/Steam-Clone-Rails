@@ -1,0 +1,48 @@
+<div class="row">
+  <div class="col-md-4">
+    <%= image_tag @book.book_img.url(:book_show), class: "book-show" %>
+  </div>
+  <div class="col-md-5">
+    <h2 class="bg-text"><%= @book.title %></h2>
+    <p class="bg-text"><%= @book.description %></p>
+  </div>
+   <div class="col-md-3 bg-colors2">
+    <ul style="padding-top: 3mm;">
+      <p class="bg-text"><b>Değerlendirmeler:</b> <%= @book.reviews.count %> </p>
+      <p class="bg-text"><b>Kategori:</b> <%= @book.category.name %></p>
+      <p class="bg-text"><b>Yapımcı:</b> <%= @book.author %></p>
+      <p class="bg-text"><%= link_to "Bizi değerlendirin", new_book_review_path(@book) %></p> <%= link_to "Ana Sayfaya dön", root_path, class: "bg-text" %>
+    </ul>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-9" style="margin-top:5mm; margin-bottom:5mm">
+    <% if user_signed_in? %>
+    <% if @book.reviews.empty? %>
+      <center><p class="bg-text bg-colors" style="min-height: 20mm; padding-top: 7mm;">HİÇ DEĞERLENDİRME YOK :(</p></center>
+    <% else %>
+      <% @book.reviews.each do |review| %>
+        <% if review.user_id == current_user.id %>
+          <p style="min-height: 15mm; padding-top: 5mm; padding-left:5mm;" class="bg-text bg-colors"><b>Yorum:</b> <%= review.comment %></p>
+          <%= link_to "Güncelle /", edit_book_review_path(review.book, review) %>
+          <%= link_to "Sil", book_review_path(review.book, review), method: :delete, data: { confirm: "Değerlendirmeniz silinecek emin misiniz?" } %>
+        <% end %>
+      <% end %>
+    <% end %>
+    <% else %>
+      <center><p class="bg-text bg-colors" style="min-height: 20mm; padding-top: 7mm;">DEĞERLENDİRMELERİ GÖRMEK İÇİN GİRİŞ YAPMALISIN</p></center>
+  <% end %>
+  </div>
+   <div class="col-md-3 bg-colors2" style="padding-bottom: 25mm; margin-top:5mm">
+      <% if user_signed_in? %>
+        <% if @book.user_id == current_user.id %>
+          <center><p>ADMİN PANEL<p></center>
+          <hr>
+          <p class="bg-redcolor"><%= link_to "Oyunu Güncelle", edit_book_path(@book), class: "bg-text" %></p>
+          <%= link_to "SIFIRLA" , book_path(@book), method: :delete, data: { confirm: "Silmek istediğine emin misin?" }, class: "bg-text" %>
+        <% end %>
+      <% end %>
+  </div>
+</div>
+

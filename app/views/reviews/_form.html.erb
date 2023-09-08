@@ -1,0 +1,12 @@
+<div class="container-fluid">
+  <div class="row bg-text bg-colors">
+    <div class="col-md-10" style="padding-left: 50mm; padding-top: 20mm">
+      <%= simple_form_for([@book, @book.reviews.build]) do |f| %>
+        <p><%= f.input  :comment, label: "Yorum Yap" %></p>
+        <%= f.button :submit, class: "bg-button", value: "Onayla" %>
+      <% end %>
+    </div>
+    <div class="col-md-10" style="padding-top: 50mm">
+    </div>
+  </div>
+</div>

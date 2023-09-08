@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SteamClone</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_link_tag 'dark', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_link_tag 'light', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <link rel="stylesheet" href="/assets/light.css" data-theme="light" id="theme-style">
+    <link rel="stylesheet" href="/assets/dark.css" data-theme="dark" id="theme-style">
+
+</head>
+<body class="bg-background">
+<button id="theme-toggle" class="btn bg-text bg-button theme-toggle" type="button">Tema Değiştir</button>
+    <!-- Diğer HTML içeriği burada -->
+
+    <nav class="navbar bg-custom">
+        <div class="container">
+            <div class="navbar-header bg-text">
+                <%= link_to "Ana Sayfa", root_path, class: "navbar-brand bg-text" %>
+            </div>
+            <ul class="nav navbar-nav">
+                <li><%= link_to "Hesap Oluştur", new_user_registration_path, class: "bg-text" %></li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-left">
+                <li style="padding-top: 2mm">
+                    <button class="btn bg-text bg-button dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Kategoriler</button>
+                    <ul class="dropdown-menu bg-text">
+                        <% Category.all.each do |category| %>
+                            <li><a class="dropdown-item"><%= link_to category.name, books_path(category: category.name), class: "link" %></a></li>
+                        <% end %>
+                    </ul>
+                </li>
+                <% if user_signed_in? %>
+                    <li><%= link_to "Yeni Oyun", new_book_path, class: "bg-text" %>
+                <% end %>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <% if user_signed_in? %>
+                    <li><%= link_to "Çıkış Yap", destroy_user_session_path, class: "bg-text", method: :delete %></li>
+                <% else %>
+                    <li><%= link_to "Giriş Yap", new_user_session_path, class: "bg-text" %></li>
+                <% end %>
+            </ul>
+        </div>
+    </nav>
+
+    <p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p>
+
+    <div class="container">
+        <%= yield %>
+    </div>
+
+    <div class="footer" style=" height:10mm; text-align:center; padding-top: 70mm; font-size: 14px;">
+        <div class="footer-content">
+            <p class="bg-colors bg-text" style="height:40mm; padding-top: 15mm;">© 2023 Valve Corporation. Tüm hakları saklıdır. Tüm ticari markalar, ABD ve diğer ülkelerde ilgili sahiplerinin mülkiyetindedir.</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    
+    // Kullanıcının tercih ettiği temayı al (localStorage kullanarak)
+    let currentTheme = localStorage.getItem('theme');
+    
+    // Eğer localStorage'da tema tercihi yoksa veya hatalı bir değer ise varsayılan olarak "light" temasını kullan
+    if (!currentTheme || (currentTheme !== 'light' && currentTheme !== 'dark')) {
+        currentTheme = 'light';
+    }
+    
+    // Tema değiştirme düğmesine tıklama işlevselliği ekle
+    themeToggleBtn.addEventListener('click', function() {
+        // Tema tercihini güncelle
+        currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+    
+        // Tema tercihini kaydet
+        localStorage.setItem('theme', currentTheme);
+    
+        // Temayı değiştir
+        setTheme(currentTheme);
+    });
+    
+    // Sayfa yüklendiğinde temayı ayarla
+    setTheme(currentTheme);
+    
+    function setTheme(theme) {
+        // HTML kök elementine tema sınıfını ekle
+        document.documentElement.setAttribute('data-theme', theme);
+    
+        // CSS dosyalarını güncelle (kullanılan tema dosyasını belirt)
+        const themeStyleSheet = theme === 'light' ? '/assets/light.css' : '/assets/dark.css';
+        document.getElementById('theme-style').setAttribute('href', themeStyleSheet);
+    }
+});
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,14 @@
+<center><h1>OYUN GÜNCELLE</h1></center>
+<div class="container-fluid">
+  <div class="row bg-text bg-colors">
+    <div class="col-md-10" style="padding-left: 50mm">
+      <%= simple_form_for @book, :html => { :multipart => true } do |f| %>
+        <p><%= f.input :title, label: "Oyun Adı" %></p>
+        <p><%= f.input :description, label: "Hakkında" %></p>
+        <p><%= f.input :author, label: "Yapımcı" %></p>
+        <p><%= f.file_field :book_img, class: "bg-button" %></p>
+        <p><%= f.button :submit, class: "bg-button", style: "margin-top:2mm;" %></p>
+      <% end %>
+    </div>
+  </div>
+</div>
